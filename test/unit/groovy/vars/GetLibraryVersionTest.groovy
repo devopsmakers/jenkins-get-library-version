@@ -16,7 +16,7 @@ class GetLibraryVersionTest extends PipelineSpockTestBase {
     def 'getLibraryVersion returns latest release tag when JOB_NAME matches LIBRARY_LATEST_JOB_MATCHER'() {
         given:
         addEnvVar('JOB_NAME', 'testing-pipeline')
-        addEnvVar('LIBRARY_LATEST_JOB_MATCHER', '^testing-')
+        addEnvVar('LIBRARY_LATEST_JOB_MATCHER', '^testing-|^my-cool-jobs')
         addEnvVar('LIBRARY_REPO', 'myorg/example-repo')
         helper.registerAllowedMethod('httpRequest', [Map], { map ->
             if (map.url == "https://api.github.com/repos/myorg/example-repo/releases/latest") {

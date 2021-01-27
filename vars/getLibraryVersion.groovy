@@ -7,9 +7,9 @@
  */
 String call(Map conf = [:]) {
     // env variables should be set at the Jenkins Server level
-    String latestJobPattern = env.LIBRARY_LATEST_JOB_MATCHER ?: ""
+    String latestJobPattern = env.LIBRARY_LATEST_JOB_MATCHER
 
-    String libraryRepo = env.LIBRARY_REPO ?: ""
+    String libraryRepo = env.LIBRARY_REPO
     if(conf.libraryRepo) {
         libraryRepo = conf.libraryRepo
     }
@@ -18,7 +18,7 @@ String call(Map conf = [:]) {
     String defaultStableLibraryVersion = env.LIBRARY_DEFAULT_STABLE_VERSION ?: "stable"
 
     String githubApiURL = env.GITHUB_API_URL ?: "api.github.com"
-    String githubCredentialsID = env.GITHUB_CREDENTIALS_ID ?: ""
+    String githubCredentialsID = env.GITHUB_CREDENTIALS_ID
 
     assert latestJobPattern
     assert libraryRepo
