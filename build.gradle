@@ -1,0 +1,66 @@
+plugins {
+    id "jacoco"
+    id "com.mkobit.jenkins.pipelines.shared-library" version "0.10.1"
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation platform("org.spockframework:spock-bom:1.3-groovy-2.4")
+    testImplementation "org.spockframework:spock-core"
+
+    testImplementation "junit:junit:4.13.1"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.7.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+
+    testImplementation "org.yaml:snakeyaml:1.5"
+}
+
+sharedLibrary {
+    pipelineTestUnitVersion = "1.8"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging { events "passed", "skipped", "failed" }
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+    finalizedBy jacocoTestReport
+}
+
+def jacocoClassIncludes = [
+        "getLibraryVersion*",
+]
+
+def jacocoClassExcludes = ["*_run_*", "*_call_*", "*Test.*"]
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories.from = fileTree(dir: "$buildDir/jacoco/classpathdumps", includes: jacocoClassIncludes, excludes: jacocoClassExcludes)
+    }
+    reports {
+        csv.enabled false
+        xml {
+            enabled true
+            destination file("${buildDir}/test-results/jacoco.xml")
+        }
+        html.destination file("${buildDir}/reports/jacoco")
+    }
+}
+
+jacocoTestCoverageVerification {
+    afterEvaluate {
+        classDirectories.from = fileTree(dir: "$buildDir/jacoco/classpathdumps", includes: jacocoClassIncludes, excludes: jacocoClassExcludes)
+    }
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+            }
+        }
+    }
+}

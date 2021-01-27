@@ -1,0 +1,1 @@
+<p>Return a version to use to dynamically load a shared library.</p>
