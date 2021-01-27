@@ -4,6 +4,7 @@ import helpers.PipelineSpockTestBase
 import org.codehaus.groovy.runtime.powerassert.PowerAssertionError
 
 class GetLibraryVersionTest extends PipelineSpockTestBase {
+
     def 'getLibraryVersion fails when not configured correctly'() {
         when:
         runScript('test/unit/resources/getLibraryVersionTest.Jenkinsfile')
@@ -18,13 +19,13 @@ class GetLibraryVersionTest extends PipelineSpockTestBase {
         addEnvVar('JOB_NAME', 'testing-pipeline')
         addEnvVar('LIBRARY_LATEST_JOB_MATCHER', '^testing-|^my-cool-jobs')
         addEnvVar('LIBRARY_REPO', 'myorg/example-repo')
+
+        when:
         helper.registerAllowedMethod('httpRequest', [Map], { map ->
             if (map.url == "https://api.github.com/repos/myorg/example-repo/releases/latest") {
                 return ["status": 200, "content": '{"tag_name": "v3.8.5"}']
             }
         })
-
-        when:
         runScript('test/unit/resources/getLibraryVersionTest.Jenkinsfile')
         printCallStack()
 
