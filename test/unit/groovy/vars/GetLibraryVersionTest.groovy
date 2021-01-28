@@ -19,10 +19,11 @@ class GetLibraryVersionTest extends PipelineSpockTestBase {
         addEnvVar('JOB_NAME', 'testing-pipeline')
         addEnvVar('LIBRARY_LATEST_JOB_MATCHER', '^testing-|^my-cool-jobs')
         addEnvVar('LIBRARY_REPO', 'myorg/example-repo')
+        addEnvVar('GITHUB_CREDENTIALS_ID', 'github-creds')
 
         when:
         helper.registerAllowedMethod('httpRequest', [Map], { map ->
-            if (map.url == "https://api.github.com/repos/myorg/example-repo/releases/latest") {
+            if (map.url == "https://api.github.com/repos/myorg/example-repo/releases/latest" && map.authentication == "github-creds") {
                 return ["status": 200, "content": '{"tag_name": "v3.8.5"}']
             }
         })
@@ -93,6 +94,29 @@ class GetLibraryVersionTest extends PipelineSpockTestBase {
             call.methodName == "library"
         }.any { call ->
             call.toString().contains('stubLibrary@production')
+        }
+        assertJobStatusSuccess()
+    }
+
+    def 'getLibraryVersion returns version for a different repo when configured to'() {
+        given:
+        addEnvVar('JOB_NAME', 'testing-pipeline')
+        addEnvVar('LIBRARY_LATEST_JOB_MATCHER', '^testing-')
+
+        when:
+        helper.registerAllowedMethod('httpRequest', [Map], { map ->
+            if (map.url == "https://api.github.com/repos/example/library/releases/latest") {
+                return ["status": 200, "content": '{"tag_name": "v0.0.495"}']
+            }
+        })
+        runScript('test/unit/resources/getLibraryVersionWithConfigTest.Jenkinsfile')
+        printCallStack()
+
+        then:
+        assert helper.callStack.findAll { call ->
+            call.methodName == "library"
+        }.any { call ->
+            call.toString().contains('stubLibrary@v0.0.495')
         }
         assertJobStatusSuccess()
     }
