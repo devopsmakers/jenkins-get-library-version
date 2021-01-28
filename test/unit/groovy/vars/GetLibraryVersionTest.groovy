@@ -39,7 +39,7 @@ class GetLibraryVersionTest extends PipelineSpockTestBase {
         assertJobStatusSuccess()
     }
 
-    def 'getLibraryVersion configured latest version tag when JOB_NAME matches LIBRARY_LATEST_JOB_MATCHER'() {
+    def 'getLibraryVersion returns configured latest version tag when JOB_NAME matches LIBRARY_LATEST_JOB_MATCHER'() {
         given:
         addEnvVar('JOB_NAME', 'testing-pipeline')
         addEnvVar('LIBRARY_LATEST_JOB_MATCHER', '^testing-')
