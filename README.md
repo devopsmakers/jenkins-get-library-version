@@ -37,6 +37,11 @@ reference a slower moving "stable" version.
 ## How is this?
 Most of the configuration is done with environment variables that should be set at the global configuration level:
 ### Required:
+
+#### Plugins:
+- [HTTP Request](https://plugins.jenkins.io/http_request/)
+
+#### Environment Variables:
 - `LIBRARY_REPO` - The Github `org/repo` that your main shared library lives in. This is used to query the Github API
   for the latest release `tag_name`.
   
