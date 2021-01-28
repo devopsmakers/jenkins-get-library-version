@@ -277,7 +277,7 @@ class PipelineTestHelper extends BasePipelineTest {
         helper.registerAllowedMethod('fileExists', [Map.class], { args -> fileExists(args) })
         helper.registerAllowedMethod('fileExists', [String.class], { args -> fileExists(args) })
 
-        helper.registerAllowedMethod('readJson', [Map.class], {args -> readJSON(args)})
+        helper.registerAllowedMethod('readJSON', [Map.class], {args -> readJSON(args)})
     }
 
     /**

@@ -43,7 +43,7 @@ String call(Map conf = [:]) {
             }
 
             def response = httpRequest(requestConfig)
-            return readJson(text: response.content).tag_name
+            return readJSON(text: response.content).tag_name
         }
     }
     // All others get the "stable" tag
