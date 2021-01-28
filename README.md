@@ -5,8 +5,10 @@ A Jenkins shared library helper function to help load different versions based o
 On my travels through Jenkins, Groovy Shared Library, and Declarative Pipeline. I read the internet, and watched
 many Jenkins World talks, often with conflicting opinions and ideas.
 
-One of the talks had an interesting pattern with some plugin or something that ran code before loading a projects
-`Jenkinsfile`. I can't remember which talk it is, but I'll add a link here if I ever find it.
+One of the talks had an interesting pattern with some plugin or something that ran some code before loading a projects
+`Jenkinsfile` to use a version of their shared library, latest or stable, depending on some environment variabe and a regex.
+
+I can't remember which talk it is, but I'll add a link here if I ever find it.
 
 This is an attempt at creating a small library that could be used to do the same thing in a `Jenkinsfile` like this:
 ```groovy
