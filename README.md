@@ -50,7 +50,8 @@ Most of the configuration is done with environment variables that should be set 
 - `LIBRARY_LATEST_JOB_MATCHER` - The pattern to match jobs for the "latest" library version.
   Example: `^pipeline-test|^my-cool-jobs`.
   
-### Optional
+### Optional:
+#### Environment Variables:
 - `LIBRARY_DEFAULT_STABLE_VERSION` - Override the default "stable" version. Default: `stable`.
 - `LIBRARY_DEFAULT_LATEST_VERSION` - Override the default "latest" version. Sometimes, you might just want to use
 the `main` branch and not worry about creating Github releases. Defaults to Github "Latest Release" tag.
